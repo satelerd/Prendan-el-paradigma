@@ -3,32 +3,32 @@ import random
 
 
 def start_game():
-    """the following function starts the game"""
+    # Starts the game
     print("Welcome to the paper rock scissors game")
     print("The rules are simple:")
     print("1. You will be asked to choose between rock, paper or scissors")
     print("2. The computer will randomly choose between rock, paper or scissors")
     print("3. The winner is the first one to reach 5 points")
     print("4. Good luck!")
-    print("")
+    print()
     print("Let's start the game!")
-    print("")
+    print()
 
 
 def get_user_choice():
-    """the following function asks the user to choose between rock, paper or scissors"""
+    # Asks the user to choose between rock, paper or scissors
     user_choice = input("Please choose rock, paper or scissors: ")
     return user_choice
 
 
 def get_computer_choice():
-    """the following function randomly chooses between rock, paper or scissors"""
+    # Randomly chooses between rock, paper or scissors
     computer_choice = random.choice(["rock", "paper", "scissors"])
     return computer_choice
 
 
 def get_winner(user_choice, computer_choice):
-    """the following function determines the winner"""
+    # Determines the winner
     if user_choice == computer_choice:
         return "It's a tie!"
 
@@ -52,13 +52,13 @@ def get_winner(user_choice, computer_choice):
 
 
 def play_again():
-    """the following function asks the user if he wants to play again"""
+    # Asks the user if he wants to play again
     play_again_input = input("Do you want to play again? (y/n): ")
     return play_again_input
 
 
 def main():
-    """the following function is the main function of the game"""
+    # The main function that runs the game
     start_game()
     user_score = 0
     computer_score = 0
@@ -92,6 +92,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    # Ask the user if he wants to play again
     new_game = play_again()
     if new_game == "n":
         print("Thank you for playing!")
