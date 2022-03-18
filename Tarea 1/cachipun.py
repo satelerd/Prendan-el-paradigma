@@ -64,6 +64,16 @@ def main():
     computer_score = 0
     while True:
         user_choice = get_user_choice()
+        # if the user enters anything other than rock, paper or scissors, the game will ask again
+        if (
+            user_choice != "rock"
+            and user_choice != "paper"
+            and user_choice != "scissors"
+        ):
+            print(f"{user_choice} is not a valid choice. Please try again.")
+            print()
+            continue
+
         computer_choice = get_computer_choice()
         print(f"The computer chose {computer_choice}")
         print(f"The result is: {get_winner(user_choice, computer_choice)}")
@@ -71,13 +81,10 @@ def main():
             user_score += 1
         elif get_winner(user_choice, computer_choice) == "The computer won!":
             computer_score += 1
-        else:
-            print("It's a tie!")
 
         print()
-        print(
-            f"Your score is: {user_score}   and the computer's score is: {computer_score}"
-        )
+        print(f"Your score is: {user_score}")
+        print(f"The computer's score is: {computer_score}")
         print()
 
         if user_score == 5:
