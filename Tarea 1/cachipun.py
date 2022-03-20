@@ -1,4 +1,11 @@
-"""the following code is a paper rock scissors game"""
+"""
+Lo siguiente es un juego de Cachipun programado en python 
+creado por el grupo "Prendan el Paradigma":
+- Daniel Sateler
+- Seba Diaz
+- Maximiliano Mardones
+"""
+
 import random
 
 
