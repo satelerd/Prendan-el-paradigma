@@ -17,7 +17,7 @@ def get_winner(user_choice, computer_choice):
     elif user_choice == "rock":
         if computer_choice == "paper":
             return "The computer won!"
-        else:
+        else: # Este else no es necesario pq si no entra al if etra al esle
             return "You won!"
 
     elif user_choice == "paper":
