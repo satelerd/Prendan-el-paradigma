@@ -131,6 +131,57 @@ int main()
         printf("Eliminar libro\n");
         remove_book();
         break;
+    case 3:
+        printf("Agregar campus\n");
+        add_campus();
+        break;
+    case 4:
+        printf("Eliminar campus\n");
+        remove_campus();
+        break;
+    case 5:
+        printf("Editar libro\n");
+        edit_book();
+        break;
+    case 6:
+        printf("Cambiar campus\n");
+        change_campus();
+        break;
+    case 7:
+        printf("Cambiar seccion\n");
+        change_section();
+        break;
+    case 8:
+        printf("Cambiar estante\n");
+        change_shelf();
+        break;
+    case 9:
+        printf("Agregar seccion\n");
+        add_section();
+        break;
+    case 10:
+        printf("Eliminar seccion\n");
+        delete_section();
+        break;
+    case 11:
+        printf("Agregar estante\n");
+        add_shelf();
+        break;
+    case 12:
+        printf("Eliminar estante\n");
+        delete_shelf();
+        break;
+    case 13:
+        printf("Buscar libro\n");
+        search_book();
+        break;
+    case 14:
+        printf("Salir\n");
+        close_file();
+        break;
+    default:
+        printf("Opcion invalida\n");
+        break;
     }
     return 0;
 }
