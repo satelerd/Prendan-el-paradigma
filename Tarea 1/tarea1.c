@@ -87,3 +87,59 @@ int search_book(fp)
 int close_file(fp)
 {
 }
+
+// the main function that calls the functions
+int main()
+{
+    int option;
+    do
+    {
+        option = menu();
+        switch (option)
+        {
+        case 1:
+            add_book(fp);
+            break;
+        case 2:
+            remove_book(fp);
+            break;
+        case 3:
+            add_campus(fp);
+            break;
+        case 4:
+            remove_campus(fp);
+            break;
+        case 5:
+            edit_book(fp);
+            break;
+        case 6:
+            change_campus(fp);
+            break;
+        case 7:
+            change_section(fp);
+            break;
+        case 8:
+            change_shelf(fp);
+            break;
+        case 9:
+            add_section(fp);
+            break;
+        case 10:
+            delete_section(fp);
+            break;
+        case 11:
+            add_shelf(fp);
+            break;
+        case 12:
+            delete_shelf(fp);
+            break;
+        case 13:
+            search_book(fp);
+            break;
+        case 14:
+            close_file(fp);
+            break;
+        }
+    } while (option != 14);
+    return 0;
+}
