@@ -181,7 +181,6 @@ void read_csv(dict *values)
         // }
 
         // printf("\n");
-        // printf("\n");
     }
 
     // return the values
