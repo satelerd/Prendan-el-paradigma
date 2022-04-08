@@ -9,7 +9,7 @@
 
 // declare the functions
 char menu();
-int read_csv();
+void read_csv();
 int add_book();
 int remove_book();
 int add_campus();
@@ -22,13 +22,26 @@ int add_section();
 int delete_section();
 int add_shelf();
 int delete_shelf();
-int search_book();
+void search_book();
 int close_file();
+
+typedef struct key_value
+{
+    char title[100];
+    char author[100];
+    char year[10];
+    char shelf[10];
+    char section[10];
+    char floor[10];
+    char building[10];
+    char campus[100];
+} dict;
 
 // the main function that calls the functions
 int main()
 {
-    read_csv();
+    dict values[999];
+    read_csv(values);
 
     int option;
     option = menu();
@@ -86,7 +99,7 @@ int main()
         break;
     case 13:
         printf("Buscar libro\n");
-        search_book();
+        search_book(values);
         break;
     case 14:
         printf("Salir\n");
@@ -99,20 +112,10 @@ int main()
     return 0;
 }
 
-typedef struct key_value
-{
-    char title[100];
-    char author[100];
-    char year[10];
-    char shelf[10];
-    char section[10];
-    char floor[10];
-    char building[10];
-    char campus[100];
-} dict;
+// Functions and variables to manage the main menu
 
 // Open the .csv file and we read the data
-int read_csv()
+void read_csv(dict *values)
 {
     FILE *inventory = fopen("inventario.csv", "r");
     if (inventory == NULL)
@@ -129,17 +132,11 @@ int read_csv()
         int row_count = 0;
         int field_count = 0;
 
-        dict values[999];
-
         int i = 0;
         while (fgets(buff, sizeof(buff), inventory))
         {
             // printf("%s\n", buff);
             field_count = 0;
-            // if (row_count == 1)
-            // {
-            //     continue;
-            // }
 
             char *field = strtok(buff, ",");
             // create a variable that stores the number of " found
@@ -167,14 +164,52 @@ int read_csv()
                 field = strtok(NULL, ",");
                 field_count++;
             }
-
-            row_count++;
             i++;
         }
 
-        printf("\n");
-        printf("\n");
+        // now print the values for (int j = 0; j < i; j++)
+        // for (int j = 0; j < i; j++)
+        // {
+        //     printf("%s\n", values[j].title);
+        //     printf("%s\n", values[j].author);
+        //     printf("%s\n", values[j].year);
+        //     printf("%s\n", values[j].shelf);
+        //     printf("%s\n", values[j].section);
+        //     printf("%s\n", values[j].floor);
+        //     printf("%s\n", values[j].building);
+        //     printf("%s\n", values[j].campus);
+        // }
+
+        // printf("\n");
+        // printf("\n");
     }
+
+    // return the values
+    // fclose(inventory);
+    return;
+}
+
+// Function to search for a book and print the information associated with it
+void search_book(dict *values)
+{
+    char book_for_search;
+    printf("Ingrese el titulo del libro que desea buscar: ");
+    scanf("%s", &book_for_search);
+
+    // loop through the books names to search for the book
+    for (int i = 0; i < 999; i++)
+    {
+        // // convert values[i].title from a pointer to a string
+        // char book_name;
+        // mbtowc(book_name, values[i].title, strlen(values[i].title));
+
+        // // printf("%s\n", values[i].title);
+        // if (book_name == book_for_search)
+        // {
+        //     printf("Titulo: %s\n", values[i].title);
+        // }
+    }
+    return;
 }
 
 // Function to add a new book
@@ -237,54 +272,10 @@ int delete_shelf()
 }
 
 // Function to search for a book and print the information associated with it
-int search_book()
-{
-    // char tem_max[10];
-    // char titu[30];
-    // char autor[30];
-    // int stant_num[3];
-    // char stant_sec[25];
-    // int piso[4];
-    // int anio[4];
-    // char edif[3];
-    // char sede[100];
-    // int i = 0; // <--- i is 0
-
-    // printf("Ingrese el nombre del libro: ");
-    // scanf("%[^\n]%*c", titu);
-
-    // FILE *stream = fopen("inventario.csv", "r");
-
-    // char line[1024];
-    // while (fgets(line, 1024, stream))
-    // {
-    //     char *tmp = strdup(line);
-    //     if (i > 0)
-    //     { // <--- i is still 0
-    //         strcpy(titu, strtok(tmp, ",\n"));
-    //         strcpy(autor, strtok(NULL, ","));
-    //         strcpy(anio, strtok(NULL, ","));
-    //         strcpy(stant_num, strtok(NULL, ","));
-    //         strcpy(stant_sec, strtok(NULL, ","));
-    //         strcpy(piso, strtok(NULL, ","));
-    //         strcpy(edif, strtok(NULL, ","));
-    //         strcpy(sede, strtok(NULL, ","));
-
-    //         if (strcmp(city, titu) == 0)
-    //         {
-    //             printf("Libro - Autor - Año - Num Estante - Sec Estante - Piso - Edificio - Sede\n");
-    //             printf("%s - %s - %s - %s - %s - %s - %s - %s\n", titu, autor, anio, stant_num, stant_sec, piso, edif, sede);
-    //         }
-    //         i++; // <--- now you do i++
-    //         free(tmp);
-    //     }
-    //     else
-    //     {
-    //         printf("ERROR");
-    //     }
-    //     fclose(stream);
-    // }
-}
+// int search_book()
+// {
+//     dict values[999];
+// }
 
 // Function to close and save the .csv file
 int close_file()
