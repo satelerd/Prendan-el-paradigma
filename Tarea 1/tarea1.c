@@ -28,6 +28,8 @@ int close_file();
 // the main function that calls the functions
 int main()
 {
+    read_csv();
+
     int option;
     option = menu();
 
@@ -97,10 +99,93 @@ int main()
     return 0;
 }
 
+typedef struct key_value
+{
+    char title[100];
+    char author[100];
+    char year[4];
+    char shelf[2];
+    char section[2];
+    char floor[2];
+    char building[2];
+    char campus[100];
+} dict;
+
 // Open the .csv file and we read the data
 int read_csv()
 {
-    FILE *fp = fopen("file_path", "r");
+    FILE *inventory = fopen("inventario.csv", "r");
+    if (inventory == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+        exit(1);
+    }
+
+    char line[500];
+
+    while (fgets(line, sizeof(line), inventory))
+    {
+        char buff[1024];
+        int row_count = 0;
+        int field_count = 0;
+
+        dict values[999];
+
+        int i = 0;
+        while (fgets(buff, sizeof(buff), inventory))
+        {
+            // printf("%s\n", buff);
+            field_count = 0;
+            // if (row_count == 1)
+            // {
+            //     continue;
+            // }
+
+            char *field = strtok(buff, ",");
+            // create a variable that stores the number of " found
+            int num_of_quotes = 0;
+
+            while (field)
+            {
+                if (field_count == 0)
+                    strcpy(values[i].title, field);
+                else if (field_count == 1)
+                    strcpy(values[i].author, field);
+                else if (field_count == 2)
+                    strcpy(values[i].year, field);
+                else if (field_count == 3)
+                    strcpy(values[i].shelf, field);
+                else if (field_count == 4)
+                    strcpy(values[i].section, field);
+                else if (field_count == 5)
+                    strcpy(values[i].floor, field);
+                else if (field_count == 6)
+                    strcpy(values[i].building, field);
+                else if (field_count == 7)
+                    strcpy(values[i].campus, field);
+
+                field = strtok(NULL, ",");
+                field_count++;
+            }
+
+            row_count++;
+            i++;
+        }
+        // now print the values
+        for (int j = 0; j < i; j++)
+        {
+            printf("%s\n", values[j].title);
+            printf("%s\n", values[j].author);
+            printf("%s\n", values[j].year);
+            printf("%s\n", values[j].shelf);
+            printf("%s\n", values[j].section);
+            printf("%s\n", values[j].floor);
+            printf("%s\n", values[j].building);
+            printf("%s\n", values[j].campus);
+        }
+
+        printf("\n");
+    }
 }
 
 // Function to add a new book
