@@ -103,11 +103,11 @@ typedef struct key_value
 {
     char title[100];
     char author[100];
-    char year[4];
-    char shelf[2];
-    char section[2];
-    char floor[2];
-    char building[2];
+    char year[10];
+    char shelf[10];
+    char section[10];
+    char floor[10];
+    char building[10];
     char campus[100];
 } dict;
 
@@ -171,19 +171,8 @@ int read_csv()
             row_count++;
             i++;
         }
-        // now print the values
-        for (int j = 0; j < i; j++)
-        {
-            printf("%s\n", values[j].title);
-            printf("%s\n", values[j].author);
-            printf("%s\n", values[j].year);
-            printf("%s\n", values[j].shelf);
-            printf("%s\n", values[j].section);
-            printf("%s\n", values[j].floor);
-            printf("%s\n", values[j].building);
-            printf("%s\n", values[j].campus);
-        }
 
+        printf("\n");
         printf("\n");
     }
 }
