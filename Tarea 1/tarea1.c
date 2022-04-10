@@ -47,72 +47,90 @@ int main(int argc, char *argv[])
     char filename[1024] = "inventario.csv";
     FILE *fp = openingFile(filename);
 
-    // Display the menu
-    int option;
-    option = menu();
-
-    // switch to call the functions
-    switch (option)
+    int first_time = 1;
+    // loop until the user wants to exit
+    while (1)
     {
-    case 1:
-        printf("Agregar libro");
-        add_book(fp);
-        break;
-    case 2:
-        printf("Eliminar libro");
-        remove_book(fp, filename);
-        break;
-    case 3:
-        printf("Agregar campus");
-        add_campus();
-        break;
-    case 4:
-        printf("Eliminar campus");
-        remove_campus();
-        break;
-    case 5:
-        printf("Editar libro");
-        edit_book();
-        break;
-    case 6:
-        printf("Cambiar campus");
-        change_campus();
-        break;
-    case 7:
-        printf("Cambiar seccion");
-        change_section();
-        break;
-    case 8:
-        printf("Cambiar estante");
-        change_shelf();
-        break;
-    case 9:
-        printf("Agregar seccion");
-        add_section();
-        break;
-    case 10:
-        printf("Eliminar seccion");
-        delete_section();
-        break;
-    case 11:
-        printf("Agregar estante");
-        add_shelf();
-        break;
-    case 12:
-        printf("Eliminar estante");
-        delete_shelf();
-        break;
-    case 13:
-        printf("Buscar libro");
-        search_book(fp);
-        break;
-    case 14:
-        printf("Salir");
-        close_file();
-        break;
-    default:
-        printf("Opcion invalida");
-        break;
+        if (first_time == 0)
+        {
+            // ask the user if he wants to continue
+            char continue_;
+            printf("\n\nDesea realizar otra operacion? (s/n): ");
+            scanf("%s", &continue_);
+            if (continue_ == 'n')
+            {
+                printf("Hasta luego!\n");
+                break;
+            }
+        }
+        first_time = 0;
+
+        // Display the menu
+        int option;
+        option = menu();
+
+        // switch to call the functions
+        switch (option)
+        {
+        case 1:
+            printf("Agregar libro");
+            add_book(fp);
+            continue;
+        case 2:
+            printf("Eliminar libro");
+            remove_book(fp, filename);
+            continue;
+        case 3:
+            printf("Agregar campus");
+            add_campus();
+            continue;
+        case 4:
+            printf("Eliminar campus");
+            remove_campus();
+            continue;
+        case 5:
+            printf("Editar libro");
+            edit_book();
+            continue;
+        case 6:
+            printf("Cambiar campus");
+            change_campus();
+            continue;
+        case 7:
+            printf("Cambiar seccion");
+            change_section();
+            continue;
+        case 8:
+            printf("Cambiar estante");
+            change_shelf();
+            continue;
+        case 9:
+            printf("Agregar seccion");
+            add_section();
+            continue;
+        case 10:
+            printf("Eliminar seccion");
+            delete_section();
+            continue;
+        case 11:
+            printf("Agregar estante");
+            add_shelf();
+            continue;
+        case 12:
+            printf("Eliminar estante");
+            delete_shelf();
+            continue;
+        case 13:
+            printf("Buscar libro");
+            search_book(fp);
+            continue;
+        case 14:
+            printf("Salir");
+            close_file();
+            continue;
+        default:
+            printf("Opcion invalida");
+        }
     }
     return 0;
 }
