@@ -3,15 +3,24 @@
 // The books are organized by building, campus, section and shelf.
 
 #include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAXCHAR 1000
+#define READ_ONLY "a+"
+void libro_index(FILE *myfile);
+void display_info(FILE *myfile);
 
 // declare the functions
 char menu();
 void read_csv();
-int add_book();
-int remove_book();
+int add_book(FILE *fp);
+int remove_book(FILE *fp, char *filename);
 int add_campus();
 int remove_campus();
 int edit_book();
@@ -25,24 +34,21 @@ int delete_shelf();
 void search_book();
 int close_file();
 
-typedef struct key_value
+FILE *openingFile(char *filename)
 {
-    char title[100];
-    char author[100];
-    char year[10];
-    char shelf[10];
-    char section[10];
-    char floor[10];
-    char building[10];
-    char campus[100];
-} dict;
+    FILE *fp;
+    fp = fopen(filename, READ_ONLY);
+    return fp;
+}
 
 // the main function that calls the functions
-int main()
+int main(int argc, char *argv[])
 {
-    dict values[999];
-    read_csv(values);
+    // Open the csv file
+    char filename[MAXCHAR] = "inventario.csv";
+    FILE *fp = openingFile(filename);
 
+    // Display the menu
     int option;
     option = menu();
 
@@ -50,146 +56,72 @@ int main()
     switch (option)
     {
     case 1:
-        printf("Agregar libro\n");
-        add_book();
+        printf("Agregar libro");
+        add_book(fp);
         break;
     case 2:
-        printf("Eliminar libro\n");
-        remove_book();
+        printf("Eliminar libro");
+        remove_book(fp, filename);
         break;
     case 3:
-        printf("Agregar campus\n");
+        printf("Agregar campus");
         add_campus();
         break;
     case 4:
-        printf("Eliminar campus\n");
+        printf("Eliminar campus");
         remove_campus();
         break;
     case 5:
-        printf("Editar libro\n");
+        printf("Editar libro");
         edit_book();
         break;
     case 6:
-        printf("Cambiar campus\n");
+        printf("Cambiar campus");
         change_campus();
         break;
     case 7:
-        printf("Cambiar seccion\n");
+        printf("Cambiar seccion");
         change_section();
         break;
     case 8:
-        printf("Cambiar estante\n");
+        printf("Cambiar estante");
         change_shelf();
         break;
     case 9:
-        printf("Agregar seccion\n");
+        printf("Agregar seccion");
         add_section();
         break;
     case 10:
-        printf("Eliminar seccion\n");
+        printf("Eliminar seccion");
         delete_section();
         break;
     case 11:
-        printf("Agregar estante\n");
+        printf("Agregar estante");
         add_shelf();
         break;
     case 12:
-        printf("Eliminar estante\n");
+        printf("Eliminar estante");
         delete_shelf();
         break;
     case 13:
-        printf("Buscar libro\n");
-        search_book(values);
+        printf("Buscar libro");
+        search_book();
         break;
     case 14:
-        printf("Salir\n");
+        printf("Salir");
         close_file();
         break;
     default:
-        printf("Opcion invalida\n");
+        printf("Opcion invalida");
         break;
     }
     return 0;
 }
 
-// Functions and variables to manage the main menu
-
-// Open the .csv file and we read the data
-void read_csv(dict *values)
-{
-    FILE *inventory = fopen("inventario.csv", "r");
-    if (inventory == NULL)
-    {
-        printf("Error al abrir el archivo\n");
-        exit(1);
-    }
-
-    char line[500];
-
-    while (fgets(line, sizeof(line), inventory))
-    {
-        char buff[1024];
-        int row_count = 0;
-        int field_count = 0;
-
-        int i = 0;
-        while (fgets(buff, sizeof(buff), inventory))
-        {
-            // printf("%s\n", buff);
-            field_count = 0;
-
-            char *field = strtok(buff, ",");
-            // create a variable that stores the number of " found
-            int num_of_quotes = 0;
-
-            while (field)
-            {
-                if (field_count == 0)
-                    strcpy(values[i].title, field);
-                else if (field_count == 1)
-                    strcpy(values[i].author, field);
-                else if (field_count == 2)
-                    strcpy(values[i].year, field);
-                else if (field_count == 3)
-                    strcpy(values[i].shelf, field);
-                else if (field_count == 4)
-                    strcpy(values[i].section, field);
-                else if (field_count == 5)
-                    strcpy(values[i].floor, field);
-                else if (field_count == 6)
-                    strcpy(values[i].building, field);
-                else if (field_count == 7)
-                    strcpy(values[i].campus, field);
-
-                field = strtok(NULL, ",");
-                field_count++;
-            }
-            i++;
-        }
-
-        // now print the values for (int j = 0; j < i; j++)
-        // for (int j = 0; j < i; j++)
-        // {
-        //     printf("%s\n", values[j].title);
-        //     printf("%s\n", values[j].author);
-        //     printf("%s\n", values[j].year);
-        //     printf("%s\n", values[j].shelf);
-        //     printf("%s\n", values[j].section);
-        //     printf("%s\n", values[j].floor);
-        //     printf("%s\n", values[j].building);
-        //     printf("%s\n", values[j].campus);
-        // }
-
-        // printf("\n");
-    }
-
-    // return the values
-    // fclose(inventory);
-    return;
-}
+// Functions to manage the main menu
 
 // Function to search for a book and print the information associated with it
-void search_book(dict *values)
+void search_book()
 {
     char book_for_search;
     printf("Ingrese el titulo del libro que desea buscar: ");
@@ -198,22 +130,44 @@ void search_book(dict *values)
     // loop through the books names to search for the book
     for (int i = 0; i < 999; i++)
     {
-        // // convert values[i].title from a pointer to a string
-        // char book_name;
-        // mbtowc(book_name, values[i].title, strlen(values[i].title));
-
-        // // printf("%s\n", values[i].title);
-        // if (book_name == book_for_search)
-        // {
-        //     printf("Titulo: %s\n", values[i].title);
-        // }
     }
     return;
 }
 
 // Function to add a new book
-int add_book()
+int add_book(FILE *fp)
 {
+    char book[70], author[50], section[50], building[4], campus[50];
+    int year, shelf, floor;
+
+    if (!fp)
+    {
+        printf("Can't open file\n");
+        return 0;
+    }
+    // ask for the information
+    printf("\nIngresa el nombre del libro (Los espacios se ingresan con guión bajo): \n");
+    scanf("%s", &book);
+    printf("\nIngresa el nombre del autor:\n");
+    scanf("%s", &author);
+    printf("\nIngresa el año del libro:\n");
+    scanf("%d", &year);
+    printf("\nIngresa el numero del estante donde esta el libro:\n");
+    scanf("%d", &shelf);
+    printf("\nIngresa el tipo de seccion del libro:\n");
+    scanf("%s", &section);
+    printf("\nIngresa el piso donde esta el libro: \n");
+    scanf("%d", &floor);
+    printf("\nIngresa el edificio donde esta el libro:\n");
+    scanf("%s", &building);
+    printf("\nIngresa la sede donde esta el libro:\n");
+    scanf("%s", &campus);
+
+    fprintf(fp, "%s, %s, %d,%d,%s,%d,%s,%s\n", book, author, year, shelf, section, floor, building, campus);
+    printf("\n¡Nuevo libro agregado con exito!");
+
+    fclose(fp);
+    return 0;
 }
 
 // Function to remove a book
