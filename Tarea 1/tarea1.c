@@ -10,15 +10,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#define MAXCHAR 1000
 #define READ_ONLY "a+"
-void libro_index(FILE *myfile);
-void display_info(FILE *myfile);
 
 // declare the functions
 char menu();
-void read_csv();
+
 int add_book(FILE *fp);
 int remove_book(FILE *fp, char *filename);
 int add_campus();
@@ -34,6 +30,9 @@ int delete_shelf();
 void search_book();
 int close_file();
 
+void libro_index(FILE *myfile);
+void display_info(FILE *myfile);
+
 FILE *openingFile(char *filename)
 {
     FILE *fp;
@@ -45,7 +44,7 @@ FILE *openingFile(char *filename)
 int main(int argc, char *argv[])
 {
     // Open the csv file
-    char filename[MAXCHAR] = "inventario.csv";
+    char filename[1024] = "inventario.csv";
     FILE *fp = openingFile(filename);
 
     // Display the menu
@@ -171,8 +170,48 @@ int add_book(FILE *fp)
 }
 
 // Function to remove a book
-int remove_book()
+int remove_book(FILE *fp, char *filename)
 {
+    FILE *file, *temp;
+
+    int book_to_remove;
+    char temp_filename[1000];
+    char buffer[2000];
+
+    file = fp;
+    strcpy(temp_filename, "temp____");
+    strcat(temp_filename, filename);
+
+    printf("\nIngresa el ID del libro que quieres eliminar: \n");
+    scanf("%d", &book_to_remove + 1);
+
+    temp = fopen(temp_filename, "w");
+
+    if (fp == NULL)
+    {
+        printf("\nError al abrir el archivo");
+        return 1;
+    }
+
+    bool keep_reading = true;
+    int cont = 1;
+    do
+    {
+        fgets(buffer, 2048, file);
+        if (feof(file))
+            keep_reading = false;
+        else if (cont != book_to_remove)
+            fputs(buffer, temp);
+        cont++;
+    } while (keep_reading);
+
+    fclose(file);
+    fclose(temp);
+
+    remove(filename);
+    rename(temp_filename, filename);
+    printf("¡Libro eliminado con exito!");
+    return 0;
 }
 // Function to add a campus
 int add_campus()
