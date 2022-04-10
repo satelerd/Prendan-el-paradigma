@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define READ_ONLY "a+"
+#define READ_ONLY "r"
 
 // declare the functions
 char menu();
@@ -27,7 +27,7 @@ int add_section();
 int delete_section();
 int add_shelf();
 int delete_shelf();
-void search_book();
+int search_book(FILE *fp);
 int close_file();
 
 void libro_index(FILE *myfile);
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         break;
     case 13:
         printf("Buscar libro");
-        search_book();
+        search_book(fp);
         break;
     case 14:
         printf("Salir");
@@ -250,23 +250,48 @@ int delete_shelf()
 }
 
 // Function to search for a book and print the information associated with it
-// int search_book()
-// {
-//     dict values[999];
-// }
-
-// Function to search for a book and print the information associated with it
-void search_book()
+int search_book(FILE *fp)
 {
     char book_for_search;
-    printf("Ingrese el titulo del libro que desea buscar: ");
+    printf("\nIngrese el titulo del libro que desea buscar: ");
     scanf("%s", &book_for_search);
 
-    // loop through the books names to search for the book
-    for (int i = 0; i < 999; i++)
+    char book[70], author[50], section[50], building[4], campus[50];
+    int year, shelf, floor;
+    int founded = 0;
+
+    if (!fp)
     {
+        printf("Can't open file\n");
+        return 0;
     }
-    return;
+
+    int cont = 0;
+    while (founded == 1)
+    {
+        fscanf(fp, "%s, %s, %d,%d,%s,%d,%s,%s\n", book[cont], author[cont], &year, &shelf, section[cont], &floor, building[cont], campus[cont]);
+        printf(book);
+        if (strcmp(book, book_for_search) == 0)
+        {
+            founded = 1;
+            printf("\nLibro encontrado: \n");
+            printf("\nTitulo: %s", book);
+            printf("\nAutor: %s", author);
+            printf("\nAño: %d", year);
+            printf("\nEstante: %d", shelf);
+            printf("\nSeccion: %s", section);
+            printf("\nPiso: %d", floor);
+            printf("\nEdificio: %s", building);
+            printf("\nSede: %s", campus);
+        }
+        cont++;
+    }
+
+    if (founded == 0)
+        printf("\nNo se encontro el libro");
+
+    fclose(fp);
+    return 0;
 }
 
 // Function to close and save the .csv file
