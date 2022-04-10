@@ -119,20 +119,6 @@ int main(int argc, char *argv[])
 
 // Functions to manage the main menu
 
-// Function to search for a book and print the information associated with it
-void search_book()
-{
-    char book_for_search;
-    printf("Ingrese el titulo del libro que desea buscar: ");
-    scanf("%s", &book_for_search);
-
-    // loop through the books names to search for the book
-    for (int i = 0; i < 999; i++)
-    {
-    }
-    return;
-}
-
 // Function to add a new book
 int add_book(FILE *fp)
 {
@@ -268,6 +254,20 @@ int delete_shelf()
 // {
 //     dict values[999];
 // }
+
+// Function to search for a book and print the information associated with it
+void search_book()
+{
+    char book_for_search;
+    printf("Ingrese el titulo del libro que desea buscar: ");
+    scanf("%s", &book_for_search);
+
+    // loop through the books names to search for the book
+    for (int i = 0; i < 999; i++)
+    {
+    }
+    return;
+}
 
 // Function to close and save the .csv file
 int close_file()
