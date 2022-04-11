@@ -19,15 +19,12 @@ int add_book(FILE *fp);
 int remove_book(FILE *fp, char *filename);
 int add_campus();
 int remove_campus();
-int edit_book();
-int change_campus();
-int change_section();
-int change_shelf();
 int add_section();
 int delete_section();
 int add_shelf();
 int delete_shelf();
 int search_book(FILE *fp);
+int edit_book();
 int close_file();
 
 void libro_index(FILE *myfile);
@@ -59,7 +56,7 @@ int main(int argc, char *argv[])
             scanf("%s", &continue_);
             if (continue_ == 'n')
             {
-                printf("Hasta luego!\n");
+                printf("Muchas gracias! Que tenga un buen día!\n");
                 break;
             }
         }
@@ -68,7 +65,6 @@ int main(int argc, char *argv[])
         // Display the menu
         int option;
         option = menu();
-
         // switch to call the functions
         switch (option)
         {
@@ -89,45 +85,33 @@ int main(int argc, char *argv[])
             remove_campus();
             continue;
         case 5:
-            printf("Editar libro");
-            edit_book();
-            continue;
-        case 6:
-            printf("Cambiar campus");
-            change_campus();
-            continue;
-        case 7:
-            printf("Cambiar seccion");
-            change_section();
-            continue;
-        case 8:
-            printf("Cambiar estante");
-            change_shelf();
-            continue;
-        case 9:
             printf("Agregar seccion");
             add_section();
             continue;
-        case 10:
+        case 6:
             printf("Eliminar seccion");
             delete_section();
             continue;
-        case 11:
+        case 7:
             printf("Agregar estante");
             add_shelf();
             continue;
-        case 12:
+        case 8:
             printf("Eliminar estante");
             delete_shelf();
             continue;
-        case 13:
+        case 9:
             printf("Buscar libro");
             search_book(fp);
             continue;
-        case 14:
-            printf("Salir");
-            close_file();
+        case 10:
+            printf("Editar libro");
+            edit_book();
             continue;
+        case 11:
+            printf("Salir");
+            // close_file();
+            break;
         default:
             printf("Opcion invalida");
         }
@@ -227,26 +211,6 @@ int remove_campus()
 {
 }
 
-// Function to edit a book
-int edit_book()
-{
-}
-
-// Funtion to change a book from one campus to another
-int change_campus()
-{
-}
-
-// Function to change a book from one section to another
-int change_section()
-{
-}
-
-// Function to change a book from one shelf to another
-int change_shelf()
-{
-}
-
 // Function to add a section
 int add_section()
 {
@@ -274,42 +238,82 @@ int search_book(FILE *fp)
     printf("\nIngrese el titulo del libro que desea buscar: ");
     scanf("%s", &book_for_search);
 
-    char book[70], author[50], section[50], building[4], campus[50];
-    int year, shelf, floor;
-    int founded = 0;
-
-    if (!fp)
+    char buffer[2000];
+    bool found = false;
+    while (!found && !feof(fp))
     {
-        printf("Can't open file\n");
-        return 0;
-    }
-
-    int cont = 0;
-    while (founded == 1)
-    {
-        fscanf(fp, "%s, %s, %d,%d,%s,%d,%s,%s\n", book[cont], author[cont], &year, &shelf, section[cont], &floor, building[cont], campus[cont]);
-        printf(book);
-        if (strcmp(book, book_for_search) == 0)
+        fgets(buffer, 2000, fp);
+        if (strstr(buffer, book_for_search))
         {
-            founded = 1;
-            printf("\nLibro encontrado: \n");
-            printf("\nTitulo: %s", book);
-            printf("\nAutor: %s", author);
-            printf("\nAño: %d", year);
-            printf("\nEstante: %d", shelf);
-            printf("\nSeccion: %s", section);
-            printf("\nPiso: %d", floor);
-            printf("\nEdificio: %s", building);
-            printf("\nSede: %s", campus);
+            printf("\n%s", buffer);
+            found = true;
         }
-        cont++;
     }
-
-    if (founded == 0)
+    if (!found)
         printf("\nNo se encontro el libro");
-
-    fclose(fp);
+    else
+        // print the information of the book
+        printf("\n");
+    printf("Libro encontrado");
     return 0;
+}
+
+int edit_book()
+{
+    char option;
+    char book, author, section, building, campus;
+    int year, shelf, floor;
+    printf("\n");
+    printf("Para editar un libro, tendra que elegir que opción quiere editar\n");
+    printf("Las opciones son:\n");
+    printf("1. Nombre del libro  -  2. Autor  -  3. Año  -  4. Estante  -  5. Seccion  -  6. Piso  -  7. Edificio  -  8. Campus\n");
+    scanf("%i", &option);
+    switch (option)
+    {
+    case 1:
+        printf("Editar nombre del libro ");
+        scanf("%i", &book);
+        printf("\n Se ha editado el nombre del libro");
+        break;
+    case 2:
+        printf("Editar autor, ingrese nuevo autor: ");
+        scanf("%s", &author);
+        printf("\n Se ha editado el autor");
+        break;
+    case 3:
+        printf("Editar año, ingrese nuevo año: ");
+        scanf("%d", &year);
+        printf("\n Se ha editado el año");
+        break;
+    case 4:
+        printf("Editar estante, ingrese nuevo estante: ");
+        scanf("%d", &shelf);
+        printf("\n Se ha editado el estante");
+        break;
+    case 5:
+        printf("Editar seccion, ingrese nueva seccion: ");
+        scanf("%s", &section);
+        printf("\n Se ha editado la seccion");
+        break;
+    case 6:
+        printf("Editar piso, ingrese nuevo piso: ");
+        scanf("%d", &floor);
+        printf("\n Se ha editado el piso");
+        break;
+    case 7:
+        printf("Editar edificio, ingrese nuevo edificio: ");
+        scanf("%s", &building);
+        printf("\n Se ha editado el edificio");
+        break;
+    case 8:
+        printf("Editar campus, ingrese nuevo campus: ");
+        scanf("%s", &campus);
+        printf("\n Se ha editado el campus");
+        break;
+    default:
+        printf("Opcion invalida");
+        break;
+    }
 }
 
 // Function to close and save the .csv file
@@ -325,20 +329,18 @@ char menu()
     printf("------------------------------------------------------\n");
     printf("Bienvenido a la biblioteca de la UAI\n");
     printf("Lo siguiente son las opciones para usar el sistema, escribe el numero de la opcion que deseas\n");
+    printf("\n");
     printf("1. Agregar libro\n");
     printf("2. Eliminar libro\n");
     printf("3. Agregar campus\n");
     printf("4. Eliminar campus\n");
-    printf("5. Editar libro\n");
-    printf("6. Cambiar campus\n");
-    printf("7. Cambiar seccion\n");
-    printf("8. Cambiar estante\n");
-    printf("9. Agregar seccion\n");
-    printf("10. Eliminar seccion\n");
-    printf("11. Agregar estante\n");
-    printf("12. Eliminar estante\n");
-    printf("13. Buscar libro\n");
-    printf("14. Salir\n");
+    printf("5. Agregar seccion\n");
+    printf("6. Eliminar seccion\n");
+    printf("7. Agregar estante\n");
+    printf("8. Eliminar estante\n");
+    printf("9. Buscar libro\n");
+    printf("10. Editar libro\n");
+    printf("11. Salir\n");
     // get the input of the user and return it
     printf("\n");
     printf("Elige una opcion: ");
