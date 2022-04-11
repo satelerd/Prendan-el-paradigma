@@ -1,5 +1,10 @@
 # Prendan-el-paradigma
 
-Este es el repositorio con todas las tareas de nuestro grupo conformado por:
+Este es un trabajo realizado por el grupo Prendan el Paradigma.
 
-Seba Diaz ([@sebxdixz](https://github.com/sebxdixz)), Max Mardones ([MAXMARDONES](https://github.com/MAXMARDONES)) y Daniel Sateler ([satelerd](https://github.com/satelerd))
+Conformado por:
+
+Sebastian Diaz ([@sebxdixz](https://github.com/sebxdixz)), Maximiliano Mardones ([MAXMARDONES](https://github.com/MAXMARDONES)) y Daniel Sateler ([satelerd](https://github.com/satelerd))
+
+
+Lo unico necesario para ejecutar, es hacer click en **library_management.exe** y listo!
