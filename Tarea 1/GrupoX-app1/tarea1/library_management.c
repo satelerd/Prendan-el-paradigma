@@ -44,6 +44,13 @@ int main(int argc, char *argv[])
     char filename[1024] = "inventario.csv";
     FILE *fp = openingFile(filename);
 
+    printf("Este es un trabajo realizado por el grupo Prendan el Paradigma\n");
+    printf("Conformado por:\n");
+    printf("\t-Daniel Sateler\n");
+    printf("\t-Sebastian Diaz\n");
+    printf("\t-Maximiliano Mardones\n");
+    printf("Esperamos que lo disfruten!\n");
+
     int first_time = 1;
     // loop until the user wants to exit
     while (1)
